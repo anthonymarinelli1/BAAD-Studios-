@@ -78,6 +78,36 @@ button { cursor: pointer; }
 .container { max-width: var(--max-w); margin: 0 auto; padding-left: var(--px); padding-right: var(--px); }
 .section { padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(40px, 6vw, 80px); }
 
+/* Hero — centered, two-column on large to fill right */
+.hero-inner {
+  display: grid;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+@media (min-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr minmax(200px, 280px); }
+}
+.hero-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-content .issue-label,
+.hero-content .stamp { margin: 0; }
+.hero-content h1,
+.hero-content p,
+.hero-content #hero-mail { margin-left: auto; margin-right: auto; }
+.hero-logo {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 960px) {
+  .hero-logo { display: flex; }
+}
+.hero-logo svg { width: 100%; max-width: 220px; height: auto; }
+
 /* Issue label — vintage magazine */
 .issue-label {
   font-family: 'Space Mono', monospace;
@@ -245,11 +275,15 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .nav-logo {
   background: none; border: none;
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center;
   cursor: pointer;
+  padding: 0;
 }
-.nav-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 3px; color: var(--cream); }
-.nav-logo-sub { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--yellow-faded); }
+.nav-logo svg {
+  height: 36px;
+  width: auto;
+  display: block;
+}
 .nav-links { display: flex; gap: 24px; align-items: center; }
 .nav-link {
   font-family: 'Space Mono', monospace;
@@ -549,9 +583,14 @@ textarea { resize: vertical; min-height: 100px; }
 <!-- NAV -->
 <nav id="nav">
   <div class="nav-inner">
-    <button class="nav-logo" onclick="goTo('home')">
-      <span class="nav-logo-text">BAAD</span>
-      <span class="nav-logo-sub">STUDIOS</span>
+    <button class="nav-logo" onclick="goTo('home')" aria-label="BAAD Studios home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" aria-hidden="true">
+        <text x="0" y="82" font-family="'Bebas Neue', 'Arial Black', sans-serif" font-size="96" fill="#F5F0E1" letter-spacing="8">BAAD</text>
+        <rect x="290" y="18" width="3" height="76" fill="#C62828"/>
+        <text x="310" y="52" font-family="'Space Mono', monospace" font-size="14" fill="#F5F0E1" letter-spacing="6" font-weight="700">STUDIOS</text>
+        <text x="310" y="76" font-family="'Space Mono', monospace" font-size="9" fill="#D4C34A" letter-spacing="3">COSTA MESA, CA</text>
+        <circle cx="290" cy="100" r="3" fill="#C62828"/>
+      </svg>
     </button>
     <div class="nav-links">
       <button class="nav-link active" data-page="home">HOME</button>
@@ -593,38 +632,56 @@ textarea { resize: vertical; min-height: 100px; }
   <!-- HERO -->
   <section class="section halftone">
     <div class="container">
-      <div class="flex items-center gap-12 flex-wrap mb-20" style="animation: fadeIn 0.5s ease-out both">
-        <span class="issue-label">Vol. 01 · Issue 01 · Costa Mesa, CA</span>
-        <span class="stamp">EST. 2026</span>
-      </div>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="flex items-center justify-center gap-12 flex-wrap mb-20" style="animation: fadeIn 0.5s ease-out both">
+            <span class="issue-label">Vol. 01 · Issue 01 · Costa Mesa, CA</span>
+            <span class="stamp">EST. 2026</span>
+          </div>
 
-      <h1 class="display mb-12 anim-fade-up" style="font-size: clamp(56px, 12vw, 140px); text-shadow: 3px 3px 0 var(--red);">
-        THE NEXT<br>
-        <span class="text-red">ROUND</span><br>
-        STARTS HERE.
-      </h1>
-      <p class="serif italic text-gray max-w-500 mb-32 anim-fade-up delay-2" style="font-size: clamp(16px, 2vw, 20px); line-height: 1.6;">
-        Muay Thai fight nights, underground energy, limited merch drops, and
-        the loudest crowd in Orange County. This isn't a show — it's the real thing.
-      </p>
+          <h1 class="display mb-12 anim-fade-up" style="font-size: clamp(56px, 12vw, 140px); text-shadow: 3px 3px 0 var(--red);">
+            THE NEXT<br>
+            <span class="text-red">ROUND</span><br>
+            STARTS HERE.
+          </h1>
+          <p class="serif italic text-gray max-w-500 mb-32 anim-fade-up delay-2" style="font-size: clamp(16px, 2vw, 20px); line-height: 1.6;">
+            Muay Thai fight nights, underground energy, limited merch drops, and
+            the loudest crowd in Orange County. This isn't a show — it's the real thing.
+          </p>
 
-      <div id="hero-mail" class="anim-fade-up delay-3" style="background: var(--ink); padding: clamp(24px, 4vw, 40px); position: relative; overflow: hidden; max-width: 620px; border: 3px solid var(--red); box-shadow: 8px 8px 0 var(--red);">
-        <div style="position: absolute; top: 12px; right: 16px;">
-          <span class="stamp stamp--yellow" style="font-size: 10px;">INNER CIRCLE</span>
+          <div id="hero-mail" class="anim-fade-up delay-3" style="background: var(--ink); padding: clamp(24px, 4vw, 40px); position: relative; overflow: hidden; max-width: 620px; border: 3px solid var(--red); box-shadow: 8px 8px 0 var(--red);">
+            <div style="position: absolute; top: 12px; right: 16px;">
+              <span class="stamp stamp--yellow" style="font-size: 10px;">INNER CIRCLE</span>
+            </div>
+            <span class="issue-label text-yellow">Join The List</span>
+            <h3 class="display text-cream mt-8 mb-6" style="font-size: clamp(28px, 4vw, 42px);">
+              TICKETS. LINEUPS. DROPS.<br>LIST MEMBERS EAT FIRST.
+            </h3>
+            <p class="serif text-warm mb-20" style="font-size: 14px; max-width: 400px; line-height: 1.6; margin-left: auto; margin-right: auto;">
+              First access to everything. No spam, no fluff — just the signal before anyone else hears it.
+            </p>
+            <div class="mail-form" style="display: flex; gap: 0; max-width: 440px;">
+              <input type="email" placeholder="YOUR EMAIL" style="flex: 1; border: 2px solid var(--cream); background: transparent; color: var(--cream); font-size: 12px; padding: 14px 16px; border-right: none;">
+              <button class="btn-primary" onclick="handleMailSignup(this)" style="border-color: var(--red); white-space: nowrap;">GET IN →</button>
+            </div>
+            <div class="mail-success" style="display: none;">
+              <span class="stamp stamp--yellow anim-stamp" style="font-size: 14px; padding: 8px 20px;">✓ YOU'RE IN</span>
+            </div>
+          </div>
         </div>
-        <span class="issue-label text-yellow">Join The List</span>
-        <h3 class="display text-cream mt-8 mb-6" style="font-size: clamp(28px, 4vw, 42px);">
-          TICKETS. LINEUPS. DROPS.<br>LIST MEMBERS EAT FIRST.
-        </h3>
-        <p class="serif text-warm mb-20" style="font-size: 14px; max-width: 400px; line-height: 1.6;">
-          First access to everything. No spam, no fluff — just the signal before anyone else hears it.
-        </p>
-        <div class="mail-form" style="display: flex; gap: 0; max-width: 440px;">
-          <input type="email" placeholder="YOUR EMAIL" style="flex: 1; border: 2px solid var(--cream); background: transparent; color: var(--cream); font-size: 12px; padding: 14px 16px; border-right: none;">
-          <button class="btn-primary" onclick="handleMailSignup(this)" style="border-color: var(--red); white-space: nowrap;">GET IN →</button>
-        </div>
-        <div class="mail-success" style="display: none;">
-          <span class="stamp stamp--yellow anim-stamp" style="font-size: 14px; padding: 8px 20px;">✓ YOU'RE IN</span>
+
+        <div class="hero-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" aria-hidden="true">
+            <rect x="8" y="8" width="184" height="184" fill="#0D0D0D" stroke="#0D0D0D" stroke-width="3"/>
+            <rect x="14" y="14" width="172" height="172" fill="none" stroke="#C62828" stroke-width="1.5"/>
+            <text x="100" y="135" text-anchor="middle" font-family="'Bebas Neue', 'Arial Black', sans-serif" font-size="130" fill="#F5F0E1" letter-spacing="4">B</text>
+            <rect x="14" y="14" width="172" height="3" fill="#C62828"/>
+            <rect x="14" y="183" width="172" height="3" fill="#C62828"/>
+            <line x1="22" y1="24" x2="36" y2="24" stroke="#C62828" stroke-width="1"/>
+            <line x1="22" y1="24" x2="22" y2="38" stroke="#C62828" stroke-width="1"/>
+            <line x1="178" y1="24" x2="164" y2="24" stroke="#C62828" stroke-width="1"/>
+            <line x1="178" y1="24" x2="178" y2="38" stroke="#C62828" stroke-width="1"/>
+          </svg>
         </div>
       </div>
     </div>
